@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <img src="{{current_user.avatar(200) }}">
+    </div>
+    <div class="col-md-6">
+    <div style="text-align: left ;">
+        <p><strong>Username:</strong> {{current_user.username}}</p>
+        <p><strong>Email:</strong> {{current_user.email}}</p>
+        
+        {% if user.last_seen %}
+        <p>
+            <strong>Last Seen:</strong> {{moment(current_user.last_seen).format('MMMM Do YYYY, h:mm:ss a')}}
+        </p>
+        {%endif%}
+        {% if user.about_me %}
+        <p>
+            <strong>About me:</strong> {{current_user.about_me}}
+        
+        </p>  
+        {% endif %}     
+        <p>
+            <a href="{{ url_for('edit_profile')  }}">Edit Profile</a>
+        
+        </p>
+        
+        
+        
+    </div>
+    </div>
+    
+</div>
+<hr>
+<div class="col-md-6">
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }} 
+        <p>
+          Hi {{current_user.username }}, say something.
+          {{ form.body(cols=70, rows=3)}} <br>
+         {% for error in form.body.errors%}
+            <span style="color: red;">
+                {{error}}
+            </span>
+        {%endfor%}
+        
+        </p>
+
+    <p>
+        {{form.submit()}}
+    </p>
+</div>
+{% endblock %}
+
+
